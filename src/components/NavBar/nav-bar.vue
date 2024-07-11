@@ -22,9 +22,9 @@ export default {
 
 <template>
     <div class="font-sans antialiased" id="nav-bar">
-        <nav class="flex items-center justify-between flex-wrap bg-blue-900 p-6">
+        <nav class="flex items-center justify-between flex-wrap bg-violet-950 p-6">
             <div class="flex items-center flex-no-shrink text-white mr-6">
-                <span class="font-semibold italic text-2xl tracking-tight">Canal com K</span>
+                <span class="font-semibold italic text-2xl tracking-tight">Your Streaming List</span>
             </div>
             <div class="block sm:hidden">
                 <Button @click="toggle"
@@ -38,11 +38,11 @@ export default {
                         class="no-underline block text-base mt-4 sm:inline-block sm:mt-0 text-white hover:text-red-500 font-semibold mr-4">
                         Home
                     </RouterLink>
-                    <RouterLink to="/"
+                    <RouterLink to="/movies"
                         class="no-underline block text-base mt-4 sm:inline-block sm:mt-0 text-white hover:text-red-500 font-semibold mr-4">
                         Filmes
                     </RouterLink>
-                    <RouterLink to="/"
+                    <RouterLink to="/series"
                         class="no-underline block text-base mt-4 sm:inline-block sm:mt-0  text-white hover:text-red-500 font-semibold mr-4">
                         Series
                     </RouterLink>
@@ -50,7 +50,7 @@ export default {
                 <div>
                     <RouterLink
                         class="no-underline inline-block text-base px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:bg-white hover:text-red-700 mt-4 sm:mt-0"
-                        to="/">
+                        to="/" >
                         <span>
                             Favoritos
                             <v-icon name="ri-heart-fill" />

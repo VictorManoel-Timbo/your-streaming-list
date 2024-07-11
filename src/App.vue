@@ -1,9 +1,6 @@
 <script lang="ts">
-export default {}
 </script>
 
 <template>
-  <nav-bar/>
+  <RouterView></RouterView>
 </template>
-
-<style></style>
