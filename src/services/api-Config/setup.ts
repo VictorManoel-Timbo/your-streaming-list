@@ -4,7 +4,7 @@ function apiConfig(baseUrl: string): AxiosRequestConfig {
   return {
     baseURL: baseUrl,
     headers: {
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTRjY2RkY2U5MDEwNGI5ZjVlZTRhZGVkNzE2OTAzZiIsIm5iZiI6MTcyMDYxNDI4MS42NDk3NDgsInN1YiI6IjY2OGQ4ZjI5NzIxYmViMmE2MjQ3NTdhOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.YviovcsmXRHl96pBz28ig0zwVf-W-bfB2WAN4dAimWA'
+      Authorization: import.meta.env.VITE_TOKEN
     }
   };
 }

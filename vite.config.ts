@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: "https://api.themoviedb.org/3/trending",
+          target: process.env.VITE_BASE_URL,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, "")
         },

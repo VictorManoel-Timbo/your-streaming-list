@@ -23,13 +23,13 @@ export default {
       this.service.getStreamings(`/all/day?page=${this.count || page}&language=pt-BR`)
     },
     voltarPagina() {
-      if(this.count > 1) {
+      if (this.count > 1) {
         this.count--;
         this.getAll(this.count);
       }
     },
     passarPagina() {
-      if(this.count < 500) {
+      if (this.count < 500) {
         this.count++;
         this.getAll(this.count);
       }
@@ -41,14 +41,24 @@ export default {
 
 <template>
   <nav-bar />
-  <div class=" h-full bg-blue-950">
-    <header class="text-center font-semibold italic text-3xl text-white">Todos</header>
-    <ul>
-      <li v-for="genre in todos" :key="genre.id" class="my-6 text-white text-center">
-        {{ genre.title || genre.name }}
-      </li>
-    </ul>
-    <div class="flex items-center py-4 justify-center" >
+  <div class="h-full bg-blue-950">
+    <header class="pt-4 text-center font-semibold italic text-3xl text-white">Todos</header>
+    <div class="text-center px-4">
+      <ul>
+        <li class="inline-block m-6 mt-4 text-white text-center" v-for="genre in todos" :key="genre.id">
+          <div class="w-fit m-auto">
+            <div class="my-1 p-2 hover:bg-orange-500">
+              <RouterLink to="/details">
+                <img :src="`https://image.tmdb.org/t/p/w342/${genre.poster_path}`" alt="imagem não carregada">
+              </RouterLink>
+            </div>
+            {{ genre.title || genre.name }} +
+            {{ genre.popularity }}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="flex items-center py-4 justify-center">
       <Button type="button" @click="voltarPagina"
         class="no-underline text-sm px-2 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:bg-white hover:text-red-700 mt-4 sm:mt-0">Anterior</Button>
       <Button type="button" @click="passarPagina"
