@@ -39,14 +39,26 @@ export default {
 </script>
 
 <template>
-  <nav-bar />
   <div class=" h-full bg-blue-950">
     <header class="text-center font-semibold italic text-3xl text-white">Series</header>
-    <ul>
-      <li v-for="genre in series" :key="genre.id" class="my-6 text-white text-center">
-        {{ genre.name }}
-      </li>
-    </ul>
+
+    <div class="text-center px-4">
+      <ul>
+        <li class="inline-block m-6 mt-4 relative text-center" v-for="genre in series" :key="genre.id">
+
+          <div class="w-full relative ">
+
+            <div class="transform transition duration-500 hover:scale-110 ">
+              <RouterLink to="/details">
+                <img :src="`https://image.tmdb.org/t/p/w342/${genre.poster_path}`" alt="imagem não carregada">
+              </RouterLink>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+
     <div class="flex items-center py-4 justify-center">
       <Button type="button" @click="voltarPagina"
         class="no-underline text-sm px-2 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:bg-white hover:text-red-700 mt-4 sm:mt-0">Anterior</Button>
