@@ -1,63 +1,131 @@
 <script lang="ts">
-import { OhVueIcon } from "oh-vue-icons";
-import { RouterLink } from "vue-router";
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { RouterLink } from 'vue-router';
 
 export default {
-    name: "NavBar",
+    name: 'Navbar',
     components: {
-        "v-icon": OhVueIcon
+        Disclosure,
+        DisclosureButton,
+        DisclosurePanel,
+        Menu,
+        MenuButton,
+        MenuItem,
+        MenuItems,
     },
     data() {
         return {
-            menu: false,
-        }
-    },
-    methods: {
-        toggle() {
-            this.menu = !this.menu
+            navigation: [
+                { name: 'Home', href: '/', current: false },
+                { name: 'Filmes', href: '/movies', current: false },
+                { name: 'Series', href: '/series', current: false },
+            ]
         }
     }
 }
 </script>
 
 <template>
-    <div class="font-sans antialiased" id="nav-bar">
-        <nav class="flex items-center justify-between flex-wrap bg-violet-950 p-6">
-            <div class="flex items-center flex-no-shrink text-white mr-6">
-                <span class="font-semibold italic text-2xl tracking-tight">Your Streaming List</span>
-            </div>
-            <div class="block sm:hidden">
-                <Button @click="toggle"
-                    class="flex items-center px-3 py-2 border rounded hover:text-white hover:border-white">
-                    <v-icon class="fill-current h-3 w-3" viewBox="0 0 20 20" name="hi-menu"/>
-                </Button>
-            </div>
-            <div :class="menu ? 'block' : 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
-                <div class="text-sm sm:flex-grow">
-                    <RouterLink to="/"
-                        class="no-underline block text-base mt-4 sm:inline-block sm:mt-0 text-white hover:text-red-500 font-semibold mr-4">
-                        Home
-                    </RouterLink>
-                    <RouterLink to="/movies"
-                        class="no-underline block text-base mt-4 sm:inline-block sm:mt-0 text-white hover:text-red-500 font-semibold mr-4">
-                        Filmes
-                    </RouterLink>
-                    <RouterLink to="/series"
-                        class="no-underline block text-base mt-4 sm:inline-block sm:mt-0  text-white hover:text-red-500 font-semibold mr-4">
-                        Series
-                    </RouterLink>
+    <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
+        <div class="min-w-full max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+
+                <!---- Mobile menu button ---->
+                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                    <DisclosureButton
+                        class="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                        <span class="absolute -inset-0.5" />
+                        <span class="sr-only">Open main menu</span>
+                        <v-icon name="hi-menu" v-if="!open" class="block h-6 w-6" aria-hidden="true" />
+                        <v-icon name="hi-solid-dots-vertical" v-else class="block h-6 w-6" aria-hidden="true" />
+                    </DisclosureButton>
                 </div>
-                <div>
-                    <RouterLink
-                        class="no-underline inline-block text-base px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:bg-white hover:text-red-700 mt-4 sm:mt-0"
-                        to="/" >
-                        <span>
-                            Favoritos
-                            <v-icon name="ri-heart-fill" />
-                        </span>
+                <!----------------------------->
+
+                <div class="flex flex-1 items-center justify-center  sm:items-center">
+                    <div class="flex  items-center justify-start italic text-white font-semibold text-xl">
+                        Your Streaming List
+                    </div>
+                    <div class="hidden flex-1 text-center sm:block">
+                        <div class="inline-flex space-x-4 sm:mr-6">
+                            <RouterLink v-for="item in navigation" :key="item.name" :to="item.href"
+                                :class="[item.current ? ' text-gray-300 hover:bg-gray-700 hover:text-white' : 'focus:bg-gray-900 text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm text-center font-medium']"
+                                :aria-current="item.current ? 'page' : undefined">{{ item.name }}
+                            </RouterLink>
+                        </div>
+                        <div class="inline-flex space-x-4 ">
+                            <InputText type="text" class="rounded font-semibold text-sm w-80 h-7 pl-2" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <!-- Fvoritos -->
+                    <RouterLink to="/favorite">
+                        <button type="button"
+                            class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:text-red-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <span class="absolute -inset-1.5" />
+                            <span class="sr-only">Favoritos</span>
+                            <v-icon name="ri-heart-fill" class="h-6 w-6" aria-hidden="true" />
+                        </button>
                     </RouterLink>
+                    <!-------------->
+
+                    <!-- Profile dropdown -->
+                    <Menu as="div" class="relative ml-3">
+
+                        <div>
+                            <MenuButton
+                                class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <span class="absolute -inset-1.5" />
+                                <span class="sr-only">Menu do usuário</span>
+                                <img class="h-8 w-8 rounded-full"
+                                    src="https://img.freepik.com/fotos-gratis/vista-do-aviador-pinguim-3d-animado-de-desenho-animado_23-2150882072.jpg?t=st=1720964224~exp=1720967824~hmac=058710a890e0ba36c6a696faf011eafcade9c9b584c311261b62f830cdf1971d&w=740"
+                                    alt="" />
+                            </MenuButton>
+                        </div>
+
+                        <transition enter-active-class="transition ease-out duration-100"
+                            enter-from-class="transform opacity-0 scale-95"
+                            enter-to-class="transform opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="transform opacity-100 scale-100"
+                            leave-to-class="transform opacity-0 scale-95">
+                            <MenuItems
+                                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <MenuItem v-slot="{ active }">
+                                <a href="#"
+                                    :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Seu
+                                    Perfil</a>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                <a href="#"
+                                    :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Configurações</a>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                <a href="#"
+                                    :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sair</a>
+                                </MenuItem>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
                 </div>
             </div>
-        </nav>
-    </div>
+        </div>
+
+        <!---------------------------------RESPONSIVE----------------->
+        <DisclosurePanel class="sm:hidden">
+            <div class="space-y-1 px-2 pb-3 pt-2">
+                <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href"
+                    :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
+                    :aria-current="item.current ? 'page' : undefined">{{ item.name }}
+                </DisclosureButton>
+                <div class="inline-flex space-x-4 mx-3">
+                    <InputText type="text" class="rounded font-semibold text-sm h-7 pl-2" />
+                </div>
+            </div>
+        </DisclosurePanel>
+        <!------------------------------------------------------------->
+    </Disclosure>
 </template>

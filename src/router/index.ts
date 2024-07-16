@@ -9,7 +9,7 @@ const router = createRouter({
       component: () => import('@/views/home.vue')
     },
     {
-      path: '/details',
+      path: '/details/:media/:id',
       name: 'details',
       component: () => import('@/views/details.vue')
     },

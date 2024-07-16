@@ -9,7 +9,7 @@ function apiConfig(baseUrl: string): AxiosRequestConfig {
   };
 }
 
-function initAxios(config: AxiosRequestConfig): AxiosInstance {
+function initAxios(config: AxiosRequestConfig, token?: any): AxiosInstance {
   const defineInstance = axios.create(config);
   defineInstance.interceptors.request.use(
     (request) => {
@@ -29,8 +29,8 @@ function initAxios(config: AxiosRequestConfig): AxiosInstance {
   return defineInstance;
 }
 
-function api(baseURL = "/api") {
-  return initAxios(apiConfig(baseURL));
+function api(baseURL = "/api", token?: any) {
+  return initAxios(apiConfig(baseURL), token);
 }
 
 export default api;

@@ -1,7 +1,12 @@
 <script lang="ts">
+import { RouterView } from "vue-router"
+
+export default {}
 </script>
 
 <template>
-  <nav-bar/>
-  <RouterView/>
+  <header>
+    <nav-bar />
+  </header>
+  <RouterView />
 </template>
