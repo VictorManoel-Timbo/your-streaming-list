@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, take } from "rxjs";
-import { StreamingRest } from "./rest/streaming.rest";
+import { StreamingRest } from "../services/rest/streaming.rest";
 
 export class StreamingService {
     constructor(private _streamings = new StreamingRest()) { }

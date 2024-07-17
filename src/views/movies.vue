@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { StreamingsContents } from '@/models/streaming.model';
-import { StreamingService } from '@/services/streaming.service';
+import { StreamingService } from '@/views/streaming.service';
 
 export default {
   data() {
