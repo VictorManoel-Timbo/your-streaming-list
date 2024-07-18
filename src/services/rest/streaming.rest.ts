@@ -14,6 +14,6 @@ export class StreamingRest {
     }
 
     getDetails(id: number, mediaType: string) {
-        return api.get(`/${ mediaType }/${ id }?language=pt-BR&append_to_response=videos`);
+        return api.get(`/${ mediaType }/${ id }?append_to_response=videos`);
     }
 }
