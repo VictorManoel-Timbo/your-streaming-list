@@ -16,9 +16,9 @@ export default {
     data() {
         return {
             navigation: [
-                { name: 'Home', href: '/', current: false },
-                { name: 'Filmes', href: '/movies', current: false },
-                { name: 'Series', href: '/series', current: false },
+                { name: 'Home', href: '/1', current: false },
+                { name: 'Filmes', href: '/movies/1', current: false },
+                { name: 'Series', href: '/series/1', current: false },
             ]
         }
     }
