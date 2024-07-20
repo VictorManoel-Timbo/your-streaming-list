@@ -23,13 +23,13 @@ export default {
       this.service.getSeries(page)
     },
     voltarPagina() {
-      if(this.count > 1) {
+      if (this.count > 1) {
         this.count--;
         this.getSeries(this.count);
       }
     },
     passarPagina() {
-      if(this.count < 500) {
+      if (this.count < 500) {
         this.count++;
         this.getSeries(this.count);
       }
@@ -39,11 +39,26 @@ export default {
 </script>
 
 <template>
- <background :url="series" />
-    <div class="flex items-center py-4 justify-center">
-      <Button type="button" @click="voltarPagina"
-        class="no-underline text-sm p-2 leading-none border rounded text-black border-black hover:border-transparent hover:bg-yellow-500 hover:text-red-700 mt-4 sm:mt-0">Anterior</Button>
-      <Button type="button" @click="passarPagina"
-        class="no-underline text-sm p-2 leading-none border rounded text-black border-black hover:border-transparent hover:bg-yellow-500 hover:text-red-700 mt-4 sm:mt-0">Proximo</Button>
+  <background :url="series" />
+  <div class="flex items-center py-4 justify-center bg-gray-950 text-white">
+    <Button type="button" @click="voltarPagina"
+      class="no-underline text-md p-1 w-6 leading-none  font-extrabold transition duration-700 hover:scale-125 mt-0 mx-1">
+      < 
+    </Button>
+    <div class="inline-flex text-center" >
+      <Button v-if="count > 1 && count < 500" type="button" class="mx-1 w-6" @click="count--">
+        {{ count-1 }}
+      </Button>
+      <Button type="button" class="mx-1 w-6 rounded-full ring-2 ring-white">
+        {{ count }}
+      </Button>
+      <Button v-if="count > 1 && count < 500" type="button" class="mx-1 w-6" @click="count++">
+        {{ count+1 }}
+      </Button>
     </div>
+    <Button type="button" @click="passarPagina"
+      class="no-underline text-md p-1 w-6 leading-none font-extrabold transition duration-700 hover:scale-125 mt-0 mx-1">
+      >
+    </Button>
+  </div>
 </template>

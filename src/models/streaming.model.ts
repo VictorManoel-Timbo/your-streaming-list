@@ -12,7 +12,8 @@ export class StreamingsContents {
         public popularity?: number,
         public release_date?: string, // filmes
         public first_air_date?: string, // series
-        public videos?: Videos
+        public videos?: Videos,
+        public profile_path?: string
     ) { }
 }
 
