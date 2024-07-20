@@ -11,7 +11,7 @@ export default {
             btn: true,
         };
     },
-    mounted() {
+    created() {
         this.getDetails();
     },
     computed: {
