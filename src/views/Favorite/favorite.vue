@@ -28,7 +28,7 @@ export default {
             </Button>
         </div>
         <div>
-            <background :url="favorites.favoritesList.list" :butao="true"/> 
+            <background :url="favorites.favoritesList.list" :botao="true"/> 
         </div>  
     </div>
 </template>
