@@ -4,8 +4,14 @@ import { StreamingsContents } from '@/models/streaming.model';
 export default {
     name: "Background",
     props: {
-        url: Array<StreamingsContents>,
-        botao: Boolean
+        url: {
+            type: Array<StreamingsContents>,
+            required: true
+        },
+        botao: {
+            type: Boolean,
+            required: true
+        }
     },
     emits: ["response"]
 }

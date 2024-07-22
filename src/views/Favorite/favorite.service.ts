@@ -7,7 +7,6 @@ export class FavoritesService {
 
     public favoritesList = reactive({
         list: [] as StreamingsContents[],
-        isFavorite: false
     });
 
     constructor() {
