@@ -16,9 +16,9 @@ export default {
     data() {
         return {
             navigation: [
-                { name: 'Home', href: '/1', current: false },
-                { name: 'Filmes', href: '/movies/1', current: false },
-                { name: 'Series', href: '/series/1', current: false },
+                { name: 'Home', href: `/home/${1}`, current: false },
+                { name: 'Filmes', href: `/movies/${1}`, current: false },
+                { name: 'Series', href: `/series/${1}`, current: false },
             ]
         }
     }
@@ -29,7 +29,6 @@ export default {
     <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
         <div class="min-w-full max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
-
                 <!---- Mobile menu button ---->
                 <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
                     <DisclosureButton
@@ -41,9 +40,8 @@ export default {
                     </DisclosureButton>
                 </div>
                 <!----------------------------->
-
-                <div class="flex flex-1 items-center justify-center  sm:items-center">
-                    <div class="flex  items-center justify-start italic text-white font-semibold text-xl">
+                <div class="flex flex-1 items-center justify-center sm:items-center">
+                    <div class="flex items-center justify-start italic text-white font-semibold text-xl">
                         Your Streaming List
                     </div>
                     <div class="hidden flex-1 text-center sm:block">
@@ -53,15 +51,13 @@ export default {
                                 :aria-current="item.current ? 'page' : undefined">{{ item.name }}
                             </RouterLink>
                         </div>
-                        <div class="inline-flex space-x-4 ">
+                        <div class="inline-flex space-x-4">
                             <InputText type="text" class="rounded font-semibold text-sm w-80 h-7 pl-2" />
                         </div>
                     </div>
                 </div>
-
-
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <!-- Fvoritos -->
+                    <!-- Favoritos -->
                     <RouterLink to="/favorite">
                         <button type="button"
                             class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:text-red-500 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -71,10 +67,8 @@ export default {
                         </button>
                     </RouterLink>
                     <!-------------->
-
                     <!-- Profile dropdown -->
                     <Menu as="div" class="relative ml-3">
-
                         <div>
                             <MenuButton
                                 class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -85,7 +79,6 @@ export default {
                                     alt="" />
                             </MenuButton>
                         </div>
-
                         <transition enter-active-class="transition ease-out duration-100"
                             enter-from-class="transform opacity-0 scale-95"
                             enter-to-class="transform opacity-100 scale-100"

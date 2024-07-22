@@ -4,9 +4,19 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/:page?',
+      path: '/',
+      redirect: {
+        path: '/home/1'
+      },
       name: 'home',
-      component: () => import('@/views/home.vue')
+      children: [
+        {
+          path: '/home/:page',
+          name: 'home-page',
+          component: () => import('@/views/home.vue')
+        }
+
+      ]
     },
     {
       path: '/details/:media/:id',
