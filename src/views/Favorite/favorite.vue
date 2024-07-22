@@ -4,23 +4,20 @@ import { FavoritesService } from '@/views/Favorite/favorite.service';
 import { StreamingService } from '../streaming.service';
 
 export default {
-    data() {
+    /*data() {
         return {
             all: [] as StreamingsContents[],
             favorites: [] as StreamingsContents[],
-            pagessss: 1,
-            maxPages: 500,
             page: Number(this.$route.params.page),
             type: "favorite"
         }
     },
     created() {
-        this.getAll(this.pagessss);
+        this.getAll();
     },
     watch: {
         '$route.params.page'(newPage) {
             this.page = Number(newPage);
-            //this.getAll(this.page);
         }
     },
     computed: {
@@ -34,30 +31,83 @@ export default {
     methods: {
         removeFavorite(value: StreamingsContents) {
             this.serviceFavorites.removeFavorite(value);
-            this.updateFavorites();
         },
         clearAll() {
             this.serviceFavorites.clearFavorites();
             this.favorites = [];
         },
-        getAll(page: number) {
-            if (page > this.maxPages) return;
-
-            this.service.streamings
-                .subscribe({
-                    next: (response: any) => {
-                        this.all = response.results
-                        this.updateFavorites();
-                    }
+        getAll() {
+            this.favorites = this.serviceFavorites.favoritesList.list
+            for (let id = 0; id < this.favorites.length; id++) {
+                this.service.streamings
+                    .subscribe({
+                        next: (response: any) => {
+                            this.all.push(response);
+                            this.all[id].media_type = this.favorites[id].media_type
+                            console.log(response)
+                            console.log("id: " + this.favorites[id].id + "  tipo: " + this.favorites[id].media_type)
+                        }
+                    })
+                this.service.getDetailStreaming(Number(this.favorites[id].id), this.favorites[id].media_type!)
+            }
+            this.favorites.forEach(favorite => {
+                this.service.getDetailStreaming(favorite.id, favorite.media_type).subscribe(response => {
+                    this.all.push({ ...response, media_type: favorite.media_type });
                 });
-            this.service.getAll(page);
+            })
         },
-        updateFavorites() {
-            this.favorites = this.all.filter(item =>
-                this.serviceFavorites.isFavorite({ id: item.id!, media: item.media_type! })
-            );
-        },
+    },*/
+    data() {
+        return {
+            all: [] as StreamingsContents[],
+            favorites: [] as StreamingsContents[],
+            page: Number(this.$route.params.page),
+            type: 'favorite'
+        };
     },
+    computed: {
+        serviceFavorites(): FavoritesService {
+            return new FavoritesService();
+        },
+        service(): StreamingService {
+            return new StreamingService();
+        }
+    },
+    methods: {
+        removeFavorite(value: StreamingsContents) {
+            this.serviceFavorites.removeFavorite(value);
+            this.favorites = this.favorites.filter(fav => fav.id !== value.id);
+            this.all = this.all.filter(item => item.id !== value.id);
+        },
+        clearAll() {
+            this.serviceFavorites.clearFavorites();
+            this.favorites = [];
+            console.log(this.all)
+            this.all = [];
+
+        },
+        getAll() {
+            this.favorites = this.serviceFavorites.favoritesList.list;
+            this.all = [];
+            this.favorites.forEach(favorite => {
+                this.service.streamings
+                    .subscribe({
+                        next: (response: any) => {
+                            this.all.push({ ...response, media_type: favorite.media_type });
+                        }
+                    })
+                this.service.getDetailStreaming(favorite.id!, favorite.media_type!)
+            });
+        }
+    },
+    watch: {
+        '$route.params.page'(newPage: string) {
+            this.page = Number(newPage);
+        }
+    },
+    mounted() {
+        this.getAll();
+    }
 }
 
 </script>
@@ -71,9 +121,9 @@ export default {
             </Button>
         </div>
         <div>
-            <background :url="favorites" :botao="true" />
+            <background :url="all" :botao="true" />
         </div>
-        <paginator v-if="serviceFavorites.favoritesList.list.length > 5" :pageFather="page" :type_media="type"
+        <paginator v-if="serviceFavorites.favoritesList.list.length > 20" :pageFather="page" :type_media="type"
             @response="(newPage: any) => page = newPage" />
     </div>
 </template>

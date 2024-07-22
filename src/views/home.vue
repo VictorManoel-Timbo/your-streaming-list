@@ -5,7 +5,7 @@ import { StreamingService } from '@/views/streaming.service';
 export default {
   data() {
     return {
-      all: new Array<StreamingsContents>(),
+      all: [] as StreamingsContents[],
       page: Number(this.$route.params.page),
       type: "home"
     };

@@ -45,11 +45,5 @@ export class FavoritesService {
         this.favorite$.next([]);
         localStorage.removeItem("favorites");
     }
-
-    public isFavorite(item: { id: number, media: string }): boolean {
-        return this.favoritesList.list.some(
-            fav => fav.id === item.id && fav.media_type === item.media
-        );
-    }
 }
 

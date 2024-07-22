@@ -8,7 +8,7 @@ export default {
         return {
             detail: new StreamingsContents(),
             newFavorite: {
-                media: this.$route.params.media.toString(),
+                media_type: this.$route.params.media.toString(),
                 id: Number(this.$route.params.id)
             },
             isFavorite: false,
@@ -54,7 +54,16 @@ export default {
             this.isFavorite = !this.isFavorite;
         },
         checkFavoriteStatus() {
-            this.isFavorite = this.serviceFavorites.isFavorite(this.newFavorite);
+            for (let i = 0; i < this.serviceFavorites.favoritesList.list.length; i++) {
+                if (this.serviceFavorites.favoritesList.list[i].id === Number(this.$route.params.id) && this.serviceFavorites.favoritesList.list[i].media_type === this.$route.params.media.toString()
+                ) {
+                    this.isFavorite = true;
+                } else {
+                    this.isFavorite = false
+                }
+            }
+
+            //this.isFavorite = this.serviceFavorites.isFavorite(this.newFavorite);
         }
     }
 }
@@ -84,8 +93,7 @@ export default {
             </div>
             <div v-if="firstTrailer"
                 class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center">
-                <iframe class="w-full h-full" :src="`https://www.youtube.com/embed/${firstTrailer.key}`"
-                    :title="`${detail.name || detail.title}`" frameborder="0" allowfullscreen></iframe>
+                <iframe class="w-full h-full" :src="`https://www.youtube.com/embed/${firstTrailer.key}`" frameborder="0" allowfullscreen></iframe>
             </div>
             <div v-else
                 class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center">
