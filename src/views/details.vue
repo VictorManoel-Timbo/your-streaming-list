@@ -2,21 +2,17 @@
 import { StreamingsContents } from '@/models/streaming.model';
 import { StreamingService } from '@/views/streaming.service';
 import { FavoritesService } from '@/views/Favorite/favorite.service';
+import { ButtonFav } from '@/views/Favorite/favorite.service';
 
 export default {
     data() {
         return {
             detail: new StreamingsContents(),
-            newFavorite: {
-                media_type: this.$route.params.media.toString(),
-                id: Number(this.$route.params.id)
-            },
-            isFavorite: false,
+            resume: new ButtonFav(),
         };
     },
     created() {
         this.getDetails();
-        this.checkFavoriteStatus();
     },
     computed: {
         service(): StreamingService {
@@ -32,6 +28,9 @@ export default {
                 );
             }
             return null;
+        },
+        isFavorite(): boolean {
+            return this.resume.status!;
         }
     },
     methods: {
@@ -40,30 +39,27 @@ export default {
                 .subscribe({
                     next: (response: any) => {
                         this.detail = response;
-                        console.log(response)
+                        this.updateButtonStatus();
                     }
                 })
             this.service.getDetailStreaming(Number(this.$route.params.id.toString()), this.$route.params.media.toString()!)
         },
         toggleFavorite() {
             if (this.isFavorite) {
-                this.serviceFavorites.removeFavorite(this.newFavorite);
+                this.serviceFavorites.removeFavorite(this.detail);
+                this.serviceFavorites.removeFavorite(this.resume);
             } else {
-                this.serviceFavorites.addFavorite(this.newFavorite);
+                this.detail.media_type = this.$route.params.media.toString();
+                this.serviceFavorites.addFavorite(this.detail);
+                this.serviceFavorites.addFavorite(this.resume);
             }
-            this.isFavorite = !this.isFavorite;
+            this.resume.status = !this.resume.status;
         },
-        checkFavoriteStatus() {
-            for (let i = 0; i < this.serviceFavorites.favoritesList.list.length; i++) {
-                if (this.serviceFavorites.favoritesList.list[i].id === Number(this.$route.params.id) && this.serviceFavorites.favoritesList.list[i].media_type === this.$route.params.media.toString()
-                ) {
-                    this.isFavorite = true;
-                } else {
-                    this.isFavorite = false
-                }
-            }
-
-            //this.isFavorite = this.serviceFavorites.isFavorite(this.newFavorite);
+        updateButtonStatus() {
+            this.resume.item = this.detail.name || this.detail.title;
+            this.resume.status = this.serviceFavorites.buttonFav.isFav.some(
+                fav => fav.item === this.resume.item
+            );
         }
     }
 }
@@ -90,10 +86,12 @@ export default {
                         <v-icon :name="isFavorite ? 'fa-heart-broken' : 'ri-heart-add-line'"></v-icon>
                     </Button>
                 </div>
+                <!--<button-favorite :favorite="isFavorite" @status="toggleFavorite"/>-->
             </div>
             <div v-if="firstTrailer"
                 class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center">
-                <iframe class="w-full h-full" :src="`https://www.youtube.com/embed/${firstTrailer.key}`" frameborder="0" allowfullscreen></iframe>
+                <iframe class="w-full h-full" :src="`https://www.youtube.com/embed/${firstTrailer.key}`" frameborder="0"
+                    allowfullscreen></iframe>
             </div>
             <div v-else
                 class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center">

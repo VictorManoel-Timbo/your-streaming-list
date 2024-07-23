@@ -13,7 +13,11 @@ export default {
             required: true
         }
     },
-    emits: ["response"]
+    methods: {
+        sendFavoriteDelete(favorite: StreamingsContents) {
+            this.$emit('delete-favorite', favorite)
+        }
+    }
 }
 </script>
 
@@ -37,8 +41,8 @@ export default {
                                 </Card>
                             </RouterLink>
                         </div>
-                        <Button type="button" v-if="botao" @click=""
-                            class="rounded-full w-6 h-auto bg-white text-black hover:text-red-700 outline-none hover:ring-2 hover:ring-neutral-500 ring-offset-2 ring-offset-gray-800 m-6 transition duration-700 hover:scale-125">
+                        <Button type="button" v-if="botao" @click="sendFavoriteDelete(streaming)"
+                            class="rounded-full w-6 h-auto bg-neutral-100 text-black hover:text-red-700 outline-none hover:ring-2 hover:ring-neutral-500 ring-offset-2 ring-offset-gray-800 m-6 transition duration-300 hover:scale-125">
                             <v-icon name="fa-heart-broken" />
                         </Button>
                     </div>
