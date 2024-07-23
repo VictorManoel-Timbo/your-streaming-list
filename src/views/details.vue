@@ -7,16 +7,12 @@ export default {
     data() {
         return {
             detail: new StreamingsContents(),
-            newFavorite: {
-                media: this.$route.params.media.toString(),
-                id: Number(this.$route.params.id)
-            },
-            isFavorite: false,
+            isFavorite: false
         };
     },
     created() {
         this.getDetails();
-        this.checkFavoriteStatus();
+        this.updateButtonStatus();
     },
     computed: {
         service(): StreamingService {
@@ -32,7 +28,7 @@ export default {
                 );
             }
             return null;
-        }
+        },
     },
     methods: {
         getDetails() {
@@ -40,21 +36,26 @@ export default {
                 .subscribe({
                     next: (response: any) => {
                         this.detail = response;
-                        console.log(response)
                     }
                 })
             this.service.getDetailStreaming(Number(this.$route.params.id.toString()), this.$route.params.media.toString()!)
         },
         toggleFavorite() {
+            this.detail.media_type = this.$route.params.media.toString();
             if (this.isFavorite) {
-                this.serviceFavorites.removeFavorite(this.newFavorite);
+                this.serviceFavorites.removeFavorite(this.detail);
             } else {
-                this.serviceFavorites.addFavorite(this.newFavorite);
+                this.serviceFavorites.addFavorite(this.detail);
             }
             this.isFavorite = !this.isFavorite;
         },
-        checkFavoriteStatus() {
-            this.isFavorite = this.serviceFavorites.isFavorite(this.newFavorite);
+        updateButtonStatus() {
+            const favorites = this.serviceFavorites.favoritesList.list
+            favorites.forEach(item => {
+                if (item.id === Number(this.$route.params.id) && item.media_type === this.$route.params.media) {
+                    this.isFavorite = true
+                }
+            })
         }
     }
 }
@@ -66,10 +67,12 @@ export default {
             :src="`https://image.tmdb.org/t/p/original/${detail.backdrop_path}`" />
         <img v-else-if="detail.poster_path" class="w-full h-screen object-cover"
             :src="`https://image.tmdb.org/t/p/original/${detail.poster_path}`" />
-        <img v-else class="w-full h-screen object-cover"
+        <img v-else-if="detail.profile_path" class="w-full h-screen object-cover"
             :src="`https://image.tmdb.org/t/p/original/${detail.profile_path}`" />
+        <img v-else class="w-full h-screen object-cover"
+            src="https://img.freepik.com/free-psd/x-symbol-isolated_23-2150500393.jpg?t=st=1721772498~exp=1721776098~hmac=f540744d5c483c2402886700e34d4f68951299b7796547550d32cc925ea8a261&w=740" />
         <div
-            class="absolute flex flex-col justify-center items-center lg:flex-row lg:justify-around lg:items-center w-full h-screen top-0 left-0 bg-gradient-to-r from-black from-50% to-transparent opacity-95 p-8 lg:p-16">
+            class="absolute flex flex-col justify-center items-center lg:flex-row lg:justify-around lg:items-center w-full h-screen top-0 left-0 bg-gradient-to-r from-black from-30% to-transparent opacity-95 p-8 lg:p-16">
             <div
                 class="text-white max-w-md text-center mt-4 mb-4 lg:mt-0 lg:w-1/2 lg:pr-8 lg:flex lg:flex-col lg:justify-center lg:ml-16">
                 <div class="text-3xl lg:text-5xl font-bold">{{ detail.title || detail.name }}</div>
@@ -83,14 +86,18 @@ export default {
                 </div>
             </div>
             <div v-if="firstTrailer"
-                class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center">
-                <iframe class="w-full h-full" :src="`https://www.youtube.com/embed/${firstTrailer.key}`"
-                    :title="`${detail.name || detail.title}`" frameborder="0" allowfullscreen></iframe>
+                class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center border-2 border-red-700">
+                <iframe class="w-full h-full" :src="`https://www.youtube.com/embed/${firstTrailer.key}`"></iframe>
             </div>
-            <div v-else
-                class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center">
+            <div v-else-if="detail.backdrop_path || detail.profile_path"
+                class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center border-2 border-red-700">
                 <img class="w-full h-full"
                     :src="`https://image.tmdb.org/t/p/original/${detail.backdrop_path || detail.profile_path}`" />
+            </div>
+            <div v-else
+                class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center border-2 border-red-700">
+                <img class="w-full h-full"
+                    src="https://img.freepik.com/free-psd/x-symbol-isolated_23-2150500393.jpg?t=st=1721772498~exp=1721776098~hmac=f540744d5c483c2402886700e34d4f68951299b7796547550d32cc925ea8a261&w=740" />
             </div>
         </div>
     </div>

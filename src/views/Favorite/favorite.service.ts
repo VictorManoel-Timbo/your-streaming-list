@@ -7,8 +7,13 @@ export class FavoritesService {
 
     public favoritesList = reactive({
         list: [] as StreamingsContents[],
-        isFavorite: false
     });
+    public buttonFav = reactive({
+        isFav: [{
+            item: String,
+            status: Boolean
+        }]
+    })
 
     constructor() {
         this.initializeFavorites();
@@ -27,8 +32,7 @@ export class FavoritesService {
 
     public addFavorite(item: StreamingsContents) {
         if (!this.favoritesList.list.some(
-            fav => fav.id === item.id && fav.media_type === item.media_type
-        )) {
+            fav => fav.id === item.id && fav.media_type === item.media_type)) {
             this.favorite$.next([...this.favoritesList.list, item]);
         }
     }
@@ -46,11 +50,4 @@ export class FavoritesService {
         this.favorite$.next([]);
         localStorage.removeItem("favorites");
     }
-
-    public isFavorite(item: { id: number, media: string }): boolean {
-        return this.favoritesList.list.some(
-            fav => fav.id === item.id && fav.media_type === item.media
-        );
-    }
 }
-

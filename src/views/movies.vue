@@ -5,7 +5,7 @@ import { StreamingService } from '@/views/streaming.service';
 export default {
   data() {
     return {
-      filmes: new Array<StreamingsContents>(),
+      filmes: [] as StreamingsContents[],
       page: Number(this.$route.params.page),
       type: "movies"
     };
@@ -39,6 +39,6 @@ export default {
 
 
 <template>
-  <background :url="filmes" :botao="false" />
+  <background :url="filmes" :isVisibleButton="false" />
   <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
 </template>

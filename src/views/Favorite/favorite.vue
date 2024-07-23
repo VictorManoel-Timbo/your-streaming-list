@@ -1,39 +1,49 @@
 <script lang="ts">
 import type { StreamingsContents } from '@/models/streaming.model';
 import { FavoritesService } from '@/views/Favorite/favorite.service';
+import { StreamingService } from '../streaming.service';
 
 export default {
     data() {
         return {
-
-        }
+            favorites: [] as StreamingsContents[],
+        };
+    },
+    created() {
+        this.getFavorites();
     },
     computed: {
         serviceFavorites(): FavoritesService {
             return new FavoritesService();
-        }
+        },
+        service(): StreamingService {
+            return new StreamingService();
+        },
     },
     methods: {
         removeFavorite(value: StreamingsContents) {
-            this.serviceFavorites.removeFavorite(value)
+            this.serviceFavorites.removeFavorite(value);
+            this.favorites = this.favorites.filter(fav => fav.id !== value.id);
         },
         clearAll() {
-            this.serviceFavorites.clearFavorites()
-        }
-    }
+            this.serviceFavorites.clearFavorites();
+            this.favorites = [];
+        },
+        getFavorites() {
+            this.favorites = this.serviceFavorites.favoritesList.list;
+        },
+    },
 }
+
 </script>
 
 <template>
-    <div class="bg-gray-950 text-center">
-        <div>
-            <Button type="button" @click="clearAll"
-                class=" rounded-md bg-white m-6 p-1 text-black text-md font-semibold outline-none hover:ring-2 hover:ring-neutral-300 hover:ring-offset-2 hover:ring-offset-gray-800  transition duration-300 hover:scale-105">
-                Limpar
-            </Button>
-        </div>
-        <div>
-            <background :url="serviceFavorites.favoritesList.list" :botao="true"/> 
-        </div>  
+    <div class="bg-slate-950 text-center">
+        <Button type="button" @click="clearAll"
+            class="rounded-md bg-slate-800 border-2 border-white mx-6 mt-6 w-64 p-1 text-white text-md  hover:bg-gray-900 transition duration-300 hover:scale-105">
+            
+            <v-icon name="fa-trash"/>
+        </Button>
+        <background :url="favorites" :botao="true" @delete-favorite="removeFavorite"/>
     </div>
 </template>
