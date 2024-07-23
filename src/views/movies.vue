@@ -39,6 +39,6 @@ export default {
 
 
 <template>
-  <background :url="filmes" :botao="false" />
+  <background :url="filmes" :isVisibleButton="false" />
   <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
 </template>

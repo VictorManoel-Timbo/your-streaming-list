@@ -8,7 +8,7 @@ export default {
             type: Array<StreamingsContents>,
             required: true
         },
-        botao: {
+        isVisibleButton: {
             type: Boolean,
             required: true
         }
@@ -22,12 +22,12 @@ export default {
 </script>
 
 <template>
-    <div class="w-full text-center inline-flex min-h-screen min-w-full justify-center flex-wrap p-8 bg-gray-950">
+    <div class="text-center inline-flex min-h-screen min-w-full justify-center flex-wrap p-8 bg-slate-950 overflow-hidden">
         <div>
             <ul>
                 <li class="inline-block m-8 relative text-center" v-for="streaming in url" :key="streaming.id">
                     <div class="w-full relative ">
-                        <div class="transform transition duration-500 hover:scale-105 ">
+                        <div class="transform transition duration-500 hover:scale-105">
                             <RouterLink :to="`/details/${streaming.media_type}/${streaming.id}`">
                                 <Card style="width: 304px; height: 456px; overflow: hidden">
                                     <template #header>
@@ -41,7 +41,7 @@ export default {
                                 </Card>
                             </RouterLink>
                         </div>
-                        <Button type="button" v-if="botao" @click="sendFavoriteDelete(streaming)"
+                        <Button type="button" v-if="isVisibleButton" @click="sendFavoriteDelete(streaming)"
                             class="rounded-full w-6 h-auto bg-neutral-100 text-black hover:text-red-700 outline-none hover:ring-2 hover:ring-neutral-500 ring-offset-2 ring-offset-gray-800 m-6 transition duration-300 hover:scale-125">
                             <v-icon name="fa-heart-broken" />
                         </Button>

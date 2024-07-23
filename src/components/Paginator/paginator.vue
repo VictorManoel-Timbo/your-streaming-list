@@ -28,6 +28,7 @@ export default {
       } else if (this.page > 1) {
         this.page--;
       }
+      this.windowScroll()
       this.$emit("response", this.page);
     },
     passarPagina(last: boolean) {
@@ -36,21 +37,28 @@ export default {
       } else if (this.page < 500) {
         this.page++;
       }
+      this.windowScroll()
       this.$emit("response", this.page);
+    },
+    windowScroll() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
   }
 };
 </script>
 
 <template>
-  <div class="flex items-center py-4 justify-center bg-gray-950 text-white">
+  <div class="flex items-center py-4 justify-center bg-slate-950 text-white">
     <RouterLink :to="`/${type_media}/${page}`">
       <Button type="button" @click="voltarPagina(true)"
-        class="no-underline text-md p-1 leading-none font-extrabold transition duration-500 hover:scale-125 mt-0">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0">
         <v-icon name="md-keyboarddoublearrowleft-round" />
       </Button>
       <Button type="button" @click="voltarPagina(false)"
-        class="no-underline text-md p-1 leading-none font-extrabold transition duration-500 hover:scale-125 mt-0 mr-1">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0 mr-1">
         <v-icon name="md-keyboardarrowleft-round" />
       </Button>
       <div class="inline-flex text-center">
@@ -65,11 +73,11 @@ export default {
         </Button>
       </div>
       <Button type="button" @click="passarPagina(false)"
-        class="no-underline text-lg p-1 leading-none font-extrabold transition duration-500 hover:scale-125 mt-0 ml-1">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0 ml-1">
         <v-icon name="md-keyboardarrowright-round" />
       </Button>
       <Button type="button" @click="passarPagina(true)"
-        class="no-underline text-lg p-1 leading-none font-extrabold transition duration-500 hover:scale-125 mt-0">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0">
         <v-icon name="md-keyboarddoublearrowright-round" />
       </Button>
     </RouterLink>

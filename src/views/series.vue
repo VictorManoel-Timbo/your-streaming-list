@@ -38,6 +38,6 @@ export default {
 </script>
 
 <template>
-  <background :url="series" :botao="false" />
+  <background :url="series" :isVisibleButton="false" />
   <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
 </template>
