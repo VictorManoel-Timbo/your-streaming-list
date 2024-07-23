@@ -191,27 +191,27 @@ export class FavoritesService {
         }
     }
 
-    public addFavorite(item: StreamingsContents | ButtonFav) {
-        if (item instanceof StreamingsContents) {
+    public addFavorite(item1: StreamingsContents, item2:  ButtonFav) {
+        
             if (!this.favoritesList.list.some(
-                fav => fav.id === item.id && fav.media_type === item.media_type)) {
-                this.favoriteContents$.next([...this.favoritesList.list, item]);
+                fav => fav.id === item1.id && fav.media_type === item1.media_type)) {
+                this.favoriteContents$.next([...this.favoritesList.list, item1]);
             }
-        } else {
-            if (!this.buttonFav.isFav.some(fav => fav.item === item.item)) {
-                this.favoriteButtons$.next([...this.buttonFav.isFav, item]);
+        
+            if (!this.buttonFav.isFav.some(fav => fav.item === item2.item)) {
+                this.favoriteButtons$.next([...this.buttonFav.isFav, item2]);
             }
-        }
+        
     }
 
-    public removeFavorite(item: StreamingsContents | ButtonFav) {
-        if (item instanceof StreamingsContents) {
+    public removeFavorite(item1: StreamingsContents, item2: ButtonFav) {
+        
             this.favoriteContents$.next(this.favoritesList.list.filter(
-                favorite => favorite.id !== item.id || favorite.media_type !== item.media_type
+                favorite => favorite.id !== item1.id || favorite.media_type !== item1.media_type
             ));
-        } else {
-            this.favoriteButtons$.next(this.buttonFav.isFav.filter(fav => fav.item !== item.item));
-        }
+        
+            this.favoriteButtons$.next(this.buttonFav.isFav.filter(fav => fav.item !== item2.item));
+        
     }
 
     public clearFavorites() {

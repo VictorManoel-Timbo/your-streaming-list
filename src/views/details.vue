@@ -46,12 +46,10 @@ export default {
         },
         toggleFavorite() {
             if (this.isFavorite) {
-                this.serviceFavorites.removeFavorite(this.detail);
-                this.serviceFavorites.removeFavorite(this.resume);
+                this.serviceFavorites.removeFavorite(this.detail, this.resume);
             } else {
                 this.detail.media_type = this.$route.params.media.toString();
-                this.serviceFavorites.addFavorite(this.detail);
-                this.serviceFavorites.addFavorite(this.resume);
+                this.serviceFavorites.addFavorite(this.detail, this.resume);
             }
             this.resume.status = !this.resume.status;
         },
