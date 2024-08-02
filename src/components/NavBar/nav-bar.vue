@@ -16,7 +16,7 @@ export default {
     data() {
         return {
             navigation: [
-                { name: 'Home', href: `/home/${1}`, current: false },
+                { name: 'Home', href: `/home/${1}`, current: true },
                 { name: 'Filmes', href: `/movies/${1}`, current: false },
                 { name: 'Series', href: `/series/${1}`, current: false },
             ]
@@ -42,8 +42,12 @@ export default {
                 <!----------------------------->
                 <div class="flex flex-1 items-center justify-center sm:items-center">
                     <RouterLink to="/home/1">
-                        <div class="flex items-center justify-start italic text-white font-semibold text-xl">
+                        <div class="sm:flex items-center justify-start italic text-white font-semibold text-xl hidden">
                             Your Streaming List
+                        </div>
+                        <div class="flex items-center justify-start italic text-white tracking-wider font-semibold text-xl sm:hidden">
+                            YKL 
+                            <v-icon name="ri-movie-2-fill" scale="2"/>
                         </div>
                     </RouterLink>
                     <div class="hidden flex-1 text-center sm:block">
@@ -53,12 +57,9 @@ export default {
                                 :aria-current="item.current ? 'page' : undefined">{{ item.name }}
                             </RouterLink>
                         </div>
-                        <div class="inline-flex space-x-4">
-                            <InputText type="text" class="rounded font-semibold text-sm w-80 h-7 pl-2" />
-                        </div>
                     </div>
                 </div>
-                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-20 sm:pr-0">
                     <!-- Favoritos -->
                     <RouterLink to="/favorite/1">
                         <button type="button"
@@ -116,9 +117,6 @@ export default {
                     :class="[item.current ? 'bg-cyan-900 text-white' : 'text-gray-200 hover:bg-cyan-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
                     :aria-current="item.current ? 'page' : undefined">{{ item.name }}
                 </DisclosureButton>
-                <div class="inline-flex space-x-4 mx-3">
-                    <InputText type="text" class="rounded font-semibold text-sm h-7 pl-2" />
-                </div>
             </div>
         </DisclosurePanel>
         <!------------------------------------------------------------->

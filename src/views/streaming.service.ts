@@ -59,4 +59,17 @@ export class StreamingService {
                 }
             });
     }
+
+    getSearch(query: string, typeSearch?: string) {
+        this._streamings.getSearch(query, typeSearch)
+            .pipe()
+            .subscribe({
+                next: (response: any) => {
+                    this.streamings$.next(response);
+                },
+                error: () => {
+                    alert("Não foi possível fazer a pesquisa");
+                }
+            })
+    }
 }

@@ -36,6 +36,7 @@ export default {
                 .subscribe({
                     next: (response: any) => {
                         this.detail = response;
+                        console.log(response)
                     }
                 })
             this.service.getDetailStreaming(Number(this.$route.params.id.toString()), this.$route.params.media.toString()!)

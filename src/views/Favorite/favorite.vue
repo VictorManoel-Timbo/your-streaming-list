@@ -7,6 +7,7 @@ export default {
     data() {
         return {
             favorites: [] as StreamingsContents[],
+            animation: ''
         };
     },
     created() {
@@ -28,6 +29,7 @@ export default {
         clearAll() {
             this.serviceFavorites.clearFavorites();
             this.favorites = [];
+            localStorage.clear();
         },
         getFavorites() {
             this.favorites = this.serviceFavorites.favoritesList.list;
@@ -41,9 +43,8 @@ export default {
     <div class="bg-slate-950 text-center">
         <Button type="button" @click="clearAll"
             class="rounded-md bg-slate-800 border-2 border-white mx-6 mt-6 w-64 p-1 text-white text-md  hover:bg-gray-900 transition duration-300 hover:scale-105">
-            
-            <v-icon name="fa-trash"/>
+            <v-icon name="fa-trash" animation="wrench"/>
         </Button>
-        <background :url="favorites" :botao="true" @delete-favorite="removeFavorite"/>
+        <background :url="favorites" :isVisibleButton="true" @delete-favorite="removeFavorite"/>
     </div>
 </template>

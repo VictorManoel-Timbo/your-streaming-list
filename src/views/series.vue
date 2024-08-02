@@ -7,17 +7,25 @@ export default {
     return {
       series: [] as StreamingsContents[],
       page: Number(this.$route.params.page),
-      type: "series"
+      type: "series",
+      search: ""
     };
   },
   watch: {
     '$route.params.page'(newPage) {
       this.page = Number(newPage);
       this.getSeries(this.page);
+    },
+    'search'() {
+      if (this.search !== '') {
+        this.getSearch(this.search.toLowerCase());
+      } else {
+        this.getSeries(this.page)
+      }
     }
   },
   created() {
-    this.getSeries();
+    this.getSeries(this.page);
   },
   computed: {
     service(): StreamingService {
@@ -33,11 +41,21 @@ export default {
         })
       this.service.getSeries(page)
     },
+    getSearch(search: string) {
+      this.service.streamings
+        .subscribe({
+          next: (response) => {
+            this.series = response.results
+            this.series.forEach(serie => serie.media_type = "tv")
+          }
+        })
+      this.service.getSearch(search, "tv");
+    }
   },
 };
 </script>
 
 <template>
-  <background :url="series" :isVisibleButton="false" />
-  <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  <background :url="series" :isVisibleButton="false" @search="(value: any) => search = value" />
+  <paginator v-if="search === ''" :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
 </template>

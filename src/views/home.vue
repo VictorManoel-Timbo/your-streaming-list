@@ -7,13 +7,21 @@ export default {
     return {
       all: [] as StreamingsContents[],
       page: Number(this.$route.params.page),
-      type: "home"
+      type: "home",
+      search: ""
     };
   },
   watch: {
     '$route.params.page'(newPage) {
       this.page = Number(newPage);
       this.getAll(this.page);
+    },
+    'search'() {
+      if (this.search !== '') {
+        this.getSearch(this.search.toLowerCase());
+      } else {
+        this.getAll(this.page)
+      }
     }
   },
   created() {
@@ -28,16 +36,26 @@ export default {
     getAll(page?: number) {
       this.service.streamings
         .subscribe({
-          next: (response: any) =>
+          next: (response: any) => {
             this.all = response.results
+          }
         })
       this.service.getAll(page)
     },
+    getSearch(search: string) {
+      this.service.streamings
+        .subscribe({
+          next: (response) => {
+            this.all = response.results
+          }
+        })
+      this.service.getSearch(search);
+    }
   },
 };
 </script>
 
 <template>
-  <background :url="all" :isVisibleButton="false" />
+  <background :url="all" :isVisibleButton="false" @search="(value: any) => search = value" />
   <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
 </template>

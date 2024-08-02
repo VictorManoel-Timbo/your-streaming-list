@@ -3,6 +3,16 @@ import { StreamingsContents } from '@/models/streaming.model';
 
 export default {
     name: "Background",
+    data() {
+        return {
+            value: ''
+        }
+    },
+    watch: {
+        'value'(newValue: any) {
+            this.$emit('search', newValue)
+        }
+    },
     props: {
         url: {
             type: Array<StreamingsContents>,
@@ -16,27 +26,33 @@ export default {
     methods: {
         sendFavoriteDelete(favorite: StreamingsContents) {
             this.$emit('delete-favorite', favorite)
+        },
+        mostrar(obj: any) {
+            console.log(obj)
         }
     }
 }
 </script>
 
 <template>
-    <div class="text-center inline-flex min-h-screen min-w-full justify-center flex-wrap p-8 bg-slate-950 overflow-hidden">
+    <div
+        class="text-center inline-flex min-h-screen min-w-full justify-center flex-wrap p-8 bg-slate-950 overflow-hidden">
         <div>
+            <div class="space-x-4 mx-3 text-center">
+                <InputText type="text" class="rounded font-semibold text-sm h-7 pl-2" v-model="value" />
+            </div>
             <ul>
-                <li class="inline-block m-8 relative text-center" v-for="streaming in url" :key="streaming.id">
-                    <div class="w-full relative ">
+                <li class="inline-block m-8 relative text-center" v-for="streaming in url" :key="streaming.id" @mouseup="mostrar(streaming)">
+                    <!--v-if="value === '' || isVisibleButton"-->
+                    <div class="w-full relative">
                         <div class="transform transition duration-500 hover:scale-105">
                             <RouterLink :to="`/details/${streaming.media_type}/${streaming.id}`">
-                                <Card style="width: 304px; height: 456px; overflow: hidden">
-                                    <template #header>
-                                        <img v-if="streaming.poster_path"
-                                            :src="`https://image.tmdb.org/t/p/w342/${streaming.poster_path}`">
-                                        <img v-else-if="streaming.backdrop_path"
-                                            :src="`https://image.tmdb.org/t/p/w342/${streaming.backdrop_path}`">
-                                        <img v-else :src="`https://image.tmdb.org/t/p/w342/${streaming.profile_path}`"
-                                            alt="Sem Imagem" class="text-white">
+                                <Card class="lg:w-[304px] lg:h-[456px] overflow-hidden bg-red-600">
+                                    <template #content>
+                                        <img v-if="streaming.poster_path || streaming.backdrop_path || streaming.profile_path"
+                                            :src="`https://image.tmdb.org/t/p/w342/${streaming.poster_path || streaming.backdrop_path || streaming.profile_path}`">
+                                        <v-icon name="la-spinner-solid" scale="3" fill="lightgray"
+                                            animation="spin-pulse" speed="fast" />
                                     </template>
                                 </Card>
                             </RouterLink>
