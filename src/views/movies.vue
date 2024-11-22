@@ -16,13 +16,6 @@ export default {
       this.page = Number(newPage);
       this.getMovies(this.page);
     },
-    'search'() {
-      if (this.search !== '') {
-        this.getSearch(this.search.toLowerCase());
-      } else {
-        this.getMovies(this.page)
-      }
-    }
   },
   created() {
     this.getMovies(this.page);
@@ -46,7 +39,7 @@ export default {
         .subscribe({
           next: (response) => {
             this.filmes = response.results
-            this.filmes.forEach( filme => filme.media_type = "movie")
+            this.filmes.forEach(filme => filme.media_type = "movie")
           }
         })
       this.service.getSearch(search, "movie");
@@ -57,6 +50,8 @@ export default {
 
 
 <template>
-  <background :url="filmes" :isVisibleButton="false" @search="(value: any) => search = value" />
-  <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  <main>
+    <background :url="filmes" :isVisibleButton="false" @search="getSearch" />
+    <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  </main>
 </template>

@@ -16,15 +16,8 @@ export default {
       this.page = Number(newPage);
       this.getAll(this.page);
     },
-    'search'() {
-      if (this.search !== '') {
-        this.getSearch(this.search.toLowerCase());
-      } else {
-        this.getAll(this.page)
-      }
-    }
   },
-  created() {
+  mounted() {
     this.getAll(this.page);
   },
   computed: {
@@ -56,6 +49,8 @@ export default {
 </script>
 
 <template>
-  <background :url="all" :isVisibleButton="false" @search="(value: any) => search = value" />
-  <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  <main>
+    <background :url="all" :isVisibleButton="false" @search="getSearch" />
+    <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  </main>
 </template>

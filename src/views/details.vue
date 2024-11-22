@@ -7,7 +7,8 @@ export default {
     data() {
         return {
             detail: new StreamingsContents(),
-            isFavorite: false
+            isFavorite: false,
+            isLoading: true
         };
     },
     created() {
@@ -36,6 +37,7 @@ export default {
                 .subscribe({
                     next: (response: any) => {
                         this.detail = response;
+                        this.isLoading = false;
                     }
                 })
             this.service.getDetailStreaming(Number(this.$route.params.id.toString()), this.$route.params.media.toString()!)
@@ -62,14 +64,14 @@ export default {
 </script>
 
 <template>
-    <div v-if="detail !== undefined" class="relative">
+    <main class="relative">
         <img v-if="detail.backdrop_path" class="w-full h-screen object-cover"
             :src="`https://image.tmdb.org/t/p/original/${detail.backdrop_path}`" />
         <img v-else-if="detail.poster_path" class="w-full h-screen object-cover"
             :src="`https://image.tmdb.org/t/p/original/${detail.poster_path}`" />
         <img v-else-if="detail.profile_path" class="w-full h-screen object-cover"
             :src="`https://image.tmdb.org/t/p/original/${detail.profile_path}`" />
-        <div
+        <section
             class="absolute flex flex-col justify-center items-center lg:flex-row lg:justify-around lg:items-center w-full h-screen top-0 left-0 bg-gradient-to-r from-black from-30% to-transparent opacity-95 p-8 lg:p-16">
             <div
                 class="text-white max-w-md text-center mt-4 mb-4 lg:mt-0 lg:w-1/2 lg:pr-8 lg:flex lg:flex-col lg:justify-center lg:ml-16">
@@ -77,7 +79,8 @@ export default {
                 <div class="mt-2 lg:mt-4 w-full text-justify text-xl tracking-wide">{{ detail.overview }}</div>
                 <div class="mt-4 lg:mt-8">
                     <Button @click="toggleFavorite"
-                        class="rounded bg-red-700 text-black font-semibold hover:bg-black hover:text-red-700 hover:outline-none hover:ring-2 hover:ring-white p-1" unstyled>
+                        class="rounded bg-red-700 text-black font-semibold hover:bg-black hover:text-red-700 hover:outline-none hover:ring-2 hover:ring-white p-1"
+                        unstyled>
                         {{ isFavorite ? 'Remover' : 'Favoritar' }}
                         <v-icon :name="isFavorite ? 'fa-heart-broken' : 'ri-heart-add-line'"></v-icon>
                     </Button>
@@ -94,13 +97,8 @@ export default {
             </div>
             <div v-else
                 class="w-4/5 h-60 sm:h-72 sm:w-2/3 md:h-96 md:w-2/3 lg:w-[700px] lg:h-[430px] overflow-hidden lg:mb-0 lg:ml-8 lg:flex lg:items-center border-2 border-red-700">
-                <img class="w-full h-full"
-                    src="https://img.freepik.com/free-psd/x-symbol-isolated_23-2150500393.jpg?t=st=1721772498~exp=1721776098~hmac=f540744d5c483c2402886700e34d4f68951299b7796547550d32cc925ea8a261&w=740" />
+                <ProgressSpinner />
             </div>
-        </div>
-    </div>
-    <!--<div class="flex justify-center bg-slate-950">
-        <v-icon name="la-spinner-solid" scale="1" fill="lightgray" class="w-[30%] h-screen"
-            animation="spin-pulse" speed="fast" />
-    </div>-->
+        </section>
+    </main>
 </template>

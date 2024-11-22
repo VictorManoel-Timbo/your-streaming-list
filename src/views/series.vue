@@ -16,13 +16,6 @@ export default {
       this.page = Number(newPage);
       this.getSeries(this.page);
     },
-    'search'() {
-      if (this.search !== '') {
-        this.getSearch(this.search.toLowerCase());
-      } else {
-        this.getSeries(this.page)
-      }
-    }
   },
   created() {
     this.getSeries(this.page);
@@ -56,6 +49,9 @@ export default {
 </script>
 
 <template>
-  <background :url="series" :isVisibleButton="false" @search="(value: any) => search = value" />
-  <paginator v-if="search === ''" :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  <main>
+    <background :url="series" :isVisibleButton="false" @search="getSearch" />
+    <paginator v-if="search === ''" :pageFather="page" :type_media="type"
+      @response="(newPage: any) => page = newPage" />
+  </main>
 </template>
