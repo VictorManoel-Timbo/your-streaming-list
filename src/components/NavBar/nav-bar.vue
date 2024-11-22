@@ -1,6 +1,5 @@
 <script lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { RouterLink } from 'vue-router';
 
 export default {
     name: 'Navbar',
@@ -26,7 +25,7 @@ export default {
 </script>
 
 <template>
-    <Disclosure as="nav" class="bg-cyan-700 min-w-full overflow-hidden" v-slot="{ open }">
+    <Disclosure as="nav" class="bg-cyan-700 min-w-full" v-slot="{ open }">
         <div class="min-w-full max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
                 <!---- Mobile menu button ---->
@@ -53,7 +52,7 @@ export default {
                     <div class="hidden flex-1 text-center sm:block">
                         <div class="inline-flex space-x-4 sm:mr-6">
                             <RouterLink v-for="item in navigation" :key="item.name" :to="item.href"
-                                :class="[item.current ? ' text-gray-100 hover:bg-cyan-800 hover:text-white' : 'focus:bg-cyan-900 text-gray-100 hover:bg-cyan-800 hover:text-white', 'rounded-md px-3 py-2 text-sm text-center font-medium']"
+                                :class="[item.current ? 'focus:bg-cyan-900 text-gray-100 hover:bg-cyan-800 hover:text-white' : 'focus:bg-cyan-900 text-gray-100 hover:bg-cyan-800 hover:text-white', 'rounded-md px-3 py-2 text-sm text-center font-medium']"
                                 :aria-current="item.current ? 'page' : undefined">{{ item.name }}
                             </RouterLink>
                         </div>
@@ -82,7 +81,7 @@ export default {
                                     alt="" />
                             </MenuButton>
                         </div>
-                        <transition enter-active-class="transition ease-out duration-100"
+                        <!--<transition enter-active-class="transition ease-out duration-100"
                             enter-from-class="transform opacity-0 scale-95"
                             enter-to-class="transform opacity-100 scale-100"
                             leave-active-class="transition ease-in duration-75"
@@ -104,7 +103,7 @@ export default {
                                     :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sair</a>
                                 </MenuItem>
                             </MenuItems>
-                        </transition>
+                        </transition>-->
                     </Menu>
                 </div>
             </div>
