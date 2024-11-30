@@ -1,45 +1,43 @@
 <script lang="ts">
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { RouterLink } from 'vue-router';
 
 export default {
     name: 'Navbar',
-    components: {
-        Disclosure,
-        DisclosureButton,
-        DisclosurePanel,
-        Menu,
-        MenuButton,
-        MenuItem,
-        MenuItems,
-    },
     data() {
         return {
             navigation: [
                 { name: 'Home', href: `/home/${1}`, current: false },
                 { name: 'Filmes', href: `/movies/${1}`, current: false },
                 { name: 'Series', href: `/series/${1}`, current: false },
-            ]
+            ],
+            stateOpenMobileMenu: false,
+            mobileButton: 'hi-menu'
         }
+    },
+    methods: {
+        toggleIconMenuButton(): void {
+            this.stateOpenMobileMenu = !this.stateOpenMobileMenu;
+            if (this.stateOpenMobileMenu) {
+                this.mobileButton = 'hi-solid-dots-vertical';
+            } else {
+                this.mobileButton = 'hi-menu';
+            }
+        },
     }
 }
 </script>
 
 <template>
-    <Disclosure as="nav" class="bg-cyan-700 min-w-full overflow-hidden" v-slot="{ open }">
+    <main class="bg-cyan-700 min-w-full">
         <div class="min-w-full max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
-                <!---- Mobile menu button ---->
                 <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                    <DisclosureButton
+                    <div @click="toggleIconMenuButton()"
                         class="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-cyan-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                         <span class="absolute -inset-0.5" />
-                        <span class="sr-only">Open main menu</span>
-                        <v-icon name="hi-menu" v-if="!open" class="block h-6 w-6" aria-hidden="true" />
-                        <v-icon name="hi-solid-dots-vertical" v-else class="block h-6 w-6" aria-hidden="true" />
-                    </DisclosureButton>
+                        <v-icon v-model:name="mobileButton" class="block h-6 w-6" aria-hidden="true" />
+                    </div>
                 </div>
-                <!----------------------------->
                 <div class="flex flex-1 items-center justify-center sm:items-center">
                     <RouterLink to="/home/1">
                         <div class="flex items-center justify-start italic text-white font-semibold text-xl">
@@ -53,13 +51,9 @@ export default {
                                 :aria-current="item.current ? 'page' : undefined">{{ item.name }}
                             </RouterLink>
                         </div>
-                        <div class="inline-flex space-x-4">
-                            <InputText type="text" class="rounded font-semibold text-sm w-80 h-7 pl-2" />
-                        </div>
                     </div>
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <!-- Favoritos -->
                     <RouterLink to="/favorite/1">
                         <button type="button"
                             class="relative rounded-full bg-cyan-700 p-1 text-gray-300 hover:text-white focus:outline-none focus:text-red-700 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-700">
@@ -68,59 +62,27 @@ export default {
                             <v-icon name="ri-heart-fill" class="h-6 w-6" aria-hidden="true" />
                         </button>
                     </RouterLink>
-                    <!-------------->
-                    <!-- Profile dropdown -->
-                    <Menu as="div" class="relative ml-3">
+                    <div class="relative ml-3">
                         <div>
-                            <MenuButton
+                            <div
                                 class="relative flex rounded-full bg-cyan-700 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                 <span class="absolute -inset-1.5" />
-                                <span class="sr-only">Menu do usuário</span>
                                 <img class="h-8 w-8 rounded-full"
                                     src="https://img.freepik.com/fotos-gratis/vista-do-aviador-pinguim-3d-animado-de-desenho-animado_23-2150882072.jpg?t=st=1720964224~exp=1720967824~hmac=058710a890e0ba36c6a696faf011eafcade9c9b584c311261b62f830cdf1971d&w=740"
                                     alt="" />
-                            </MenuButton>
+                            </div>
                         </div>
-                        <transition enter-active-class="transition ease-out duration-100"
-                            enter-from-class="transform opacity-0 scale-95"
-                            enter-to-class="transform opacity-100 scale-100"
-                            leave-active-class="transition ease-in duration-75"
-                            leave-from-class="transform opacity-100 scale-100"
-                            leave-to-class="transform opacity-0 scale-95">
-                            <MenuItems
-                                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                <MenuItem v-slot="{ active }">
-                                <a href="#"
-                                    :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Seu
-                                    Perfil</a>
-                                </MenuItem>
-                                <MenuItem v-slot="{ active }">
-                                <a href="#"
-                                    :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Configurações</a>
-                                </MenuItem>
-                                <MenuItem v-slot="{ active }">
-                                <a href="#"
-                                    :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sair</a>
-                                </MenuItem>
-                            </MenuItems>
-                        </transition>
-                    </Menu>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!---------------------------------RESPONSIVE----------------->
-        <DisclosurePanel class="sm:hidden">
+        <section class="sm:hidden" :class="stateOpenMobileMenu ? '' : 'hidden'">
             <div class="space-y-1 px-2 pb-3 pt-2">
-                <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href"
+                <div v-for="item in navigation" :key="item.name" as="a" :href="item.href"
                     :class="[item.current ? 'bg-cyan-900 text-white' : 'text-gray-200 hover:bg-cyan-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
                     :aria-current="item.current ? 'page' : undefined">{{ item.name }}
-                </DisclosureButton>
-                <div class="inline-flex space-x-4 mx-3">
-                    <InputText type="text" class="rounded font-semibold text-sm h-7 pl-2" />
                 </div>
             </div>
-        </DisclosurePanel>
-        <!------------------------------------------------------------->
-    </Disclosure>
+        </section>
+    </main>
 </template>
