@@ -32,7 +32,7 @@ export default {
                             <img v-if="streaming.poster_path || streaming.backdrop_path || streaming.profile_path" class="bg-cover h-full w-full"
                                 :src="`https://image.tmdb.org/t/p/w342/${streaming.poster_path || streaming.backdrop_path || streaming.profile_path}`">
                             <div v-else class="w-full h-full flex items-center">
-                                <ProgressSpinner />
+                                <img src="@/assets/videos_empty.jpg">
                             </div>
                         </template>
                     </Card>

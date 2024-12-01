@@ -14,24 +14,24 @@ const router = createRouter({
           path: '/home/:page',
           name: 'home-page',
           component: () => import('@/views/home.vue')
-        }
+        },
+        {
+          path: '/movies/:page',
+          name: 'movies',
+          component: () => import('@/views/movies.vue')
+        },
+        {
+          path: '/series/:page',
+          name: 'series',
+          component: () => import('@/views/series.vue')
+        },
 
       ]
     },
     {
       path: '/details/:media/:id',
       name: 'details',
-      component: () => import('@/views/details.vue')
-    },
-    {
-      path: '/movies/:page',
-      name: 'movies',
-      component: () => import('@/views/movies.vue')
-    },
-    {
-      path: '/series/:page',
-      name: 'series',
-      component: () => import('@/views/series.vue')
+      component: () => import('@/views/Details/details.vue')
     },
     {
       path: '/favorite/:page',
