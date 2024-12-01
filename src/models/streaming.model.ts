@@ -3,15 +3,16 @@ export class StreamingsContents {
         public adult?: boolean,
         public backdrop_path?: string,
         public id?: number,
-        public name?: string, // series
-        public title?: string, // filmes
+        public name?: string, 
+        public title?: string, 
         public overview?: string,
         public poster_path?: string,
         public media_type?: string,
-        public genre_ids?: number[],
-        public popularity?: number,
-        public release_date?: string, // filmes
-        public first_air_date?: string, // series
+        public genres?: Genre[],
+        public vote_average?: number,
+        public runtime?: number,
+        public number_of_episodes?: number,
+        public number_of_seasons?: number,
         public videos?: Videos,
         public profile_path?: string
     ) { }
@@ -27,4 +28,11 @@ class Videos {
             }
         ]
     ) { }
+}
+
+class Genre {
+    constructor(
+        public id?: number,
+        public name?: string
+    ) {}
 }
