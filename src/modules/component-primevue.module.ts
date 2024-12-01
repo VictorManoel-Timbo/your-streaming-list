@@ -2,10 +2,12 @@ import type { App } from "vue";
 import Button from 'primevue/button';
 import Card from 'primevue/card';
 import InputText from "primevue/inputtext";
+import ProgressSpinner from 'primevue/progressspinner';
 
 
 export function setComponentPrime(app: App) {
     app.component("Button", Button);
     app.component("Card", Card);
-    app.component("InputText", InputText)
+    app.component("InputText", InputText);
+    app.component("ProgressSpinner", ProgressSpinner);
 }

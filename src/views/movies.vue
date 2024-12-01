@@ -7,8 +7,9 @@ export default {
     return {
       filmes: [] as StreamingsContents[],
       page: Number(this.$route.params.page),
-      type: "movies"
-    };
+      type: "movies",
+      isLoading: true
+    }
   },
   watch: {
     '$route.params.page'(newPage) {
@@ -17,7 +18,7 @@ export default {
     }
   },
   created() {
-    this.getMovies();
+    this.getMovies(this.page);
   },
   computed: {
     service(): StreamingService {
@@ -28,10 +29,12 @@ export default {
     getMovies(page?: number) {
       this.service.streamings
         .subscribe({
-          next: (response: any) =>
-            this.filmes = response.results
+          next: (response: any) =>{
+            this.filmes = response.results;
+            this.isLoading = false;
+          }
         })
-      this.service.getMovies(page)
+      this.service.getMovies(page);
     },
   },
 };
@@ -39,6 +42,11 @@ export default {
 
 
 <template>
-  <background :url="filmes" :isVisibleButton="false" />
-  <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  <main>
+    <page-loader v-if="isLoading"/>
+    <section v-else class="bg-slate-950">
+      <background :url="filmes" :isVisibleButton="false" />
+      <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+    </section>
+  </main>
 </template>
