@@ -30,20 +30,19 @@ export default {
 </script>
 
 <template>
-    <main
-        class="text-center inline-flex min-h-screen min-w-full justify-center flex-wrap p-8 bg-slate-950 overflow-hidden">
-        <section>
-            <div v-if="$route.meta.hasSearch" class="space-x-4 mx-3 text-center">
-                <InputText type="text" class="rounded font-semibold text-sm h-7 pl-2" v-model="search" />
-                <Button @click="sendSearch(search)"
-                    class="rounded-md bg-slate-800 border-2 border-white px-1 h-auto text-white" unstyled>
-                    <v-icon name="bi-search" />
-                </Button>
-            </div>
+    <main> 
+        <div v-if="$route.meta.hasSearch" class="space-x-4 p-3 text-center bg-slate-950">
+            <InputText type="text" class="rounded font-semibold text-sm h-7 pl-2" v-model="search" />
+            <Button @click="sendSearch(search)"
+                class="rounded-md bg-slate-800 border-2 border-white px-1 h-auto text-white" unstyled>
+                <v-icon name="bi-search" />
+            </Button>
+        </div>
+        <section
+            class="text-center inline-flex min-h-screen min-w-full justify-center flex-wrap p-8 bg-slate-950 overflow-hidden">
             <div class="inline-block m-8 text-center" v-for="streaming in url" :key="streaming.id">
                 <div class="transform transition duration-500 hover:scale-105">
-                    <RouterLink class=""
-                        :to="`/details/${streaming.media_type}/${streaming.id}`">
+                    <RouterLink class="" :to="`/details/${streaming.media_type}/${streaming.id}`">
                         <Card style="width: 304px; height: 456px; overflow: hidden">
                             <template #header>
                                 <img v-if="streaming.poster_path || streaming.backdrop_path || streaming.profile_path"
