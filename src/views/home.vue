@@ -7,7 +7,8 @@ export default {
     return {
       all: [] as StreamingsContents[],
       page: Number(this.$route.params.page),
-      type: "home"
+      type: "home",
+      isLoading: true
     };
   },
   watch: {
@@ -28,8 +29,10 @@ export default {
     getAll(page?: number) {
       this.service.streamings
         .subscribe({
-          next: (response: any) =>
-            this.all = response.results
+          next: (response: any) => {
+            this.all = response.results;
+            this.isLoading = false;
+          }
         })
       this.service.getAll(page)
     },
@@ -38,6 +41,11 @@ export default {
 </script>
 
 <template>
-  <background :url="all" :isVisibleButton="false" />
-  <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+  <main>
+    <page-loader v-if="isLoading"/>
+    <section v-else class="bg-slate-950">
+      <background :url="all" :isVisibleButton="false"/>
+      <paginator :pageFather="page" :type_media="type" @response="(newPage: any) => page = newPage" />
+    </section>
+  </main>
 </template>

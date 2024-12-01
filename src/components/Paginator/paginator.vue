@@ -18,6 +18,8 @@ export default {
   watch: {
     pageFather(newPage) {
       this.page = newPage;
+      this.windowScroll();
+      this.$emit("response", this.page);
     }
   },
   emits: ["response"],
@@ -28,8 +30,6 @@ export default {
       } else if (this.page > 1) {
         this.page--;
       }
-      this.windowScroll()
-      this.$emit("response", this.page);
     },
     passarPagina(last: boolean) {
       if (last) {
@@ -37,8 +37,6 @@ export default {
       } else if (this.page < 500) {
         this.page++;
       }
-      this.windowScroll()
-      this.$emit("response", this.page);
     },
     windowScroll() {
       window.scrollTo({
@@ -51,7 +49,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex items-center py-4 justify-center bg-slate-950 text-white">
+  <main class="flex items-center py-4 justify-center bg-slate-950 text-white">
     <RouterLink :to="`/${type_media}/${page}`">
       <Button type="button" @click="voltarPagina(true)"
         class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0" unstyled>
@@ -81,5 +79,5 @@ export default {
         <v-icon name="md-keyboarddoublearrowright-round" />
       </Button>
     </RouterLink>
-  </div>
+  </main>
 </template>
