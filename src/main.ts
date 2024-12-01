@@ -3,6 +3,7 @@ import '@/style.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
 import router from './router'
 import { setComponent } from './modules/component.module';
 import { setComponentIcons } from './modules/component-icon.module'
@@ -14,7 +15,9 @@ setComponentIcons(app)
 setComponentPrime(app)
 
 app.use(PrimeVue, {
-    unstyled: true
+    theme: {
+        preset: Aura
+    }
 })
 app.use(router);
 app.mount('#app');
