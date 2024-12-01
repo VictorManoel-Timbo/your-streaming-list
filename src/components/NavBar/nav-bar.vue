@@ -78,10 +78,10 @@ export default {
         </div>
         <section class="sm:hidden" :class="stateOpenMobileMenu ? '' : 'hidden'">
             <div class="space-y-1 px-2 pb-3 pt-2">
-                <div v-for="item in navigation" :key="item.name" as="a" :href="item.href"
+                <RouterLink v-for="item in navigation" :key="item.name" :to="item.href"
                     :class="[item.current ? 'bg-cyan-900 text-white' : 'text-gray-200 hover:bg-cyan-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
                     :aria-current="item.current ? 'page' : undefined">{{ item.name }}
-                </div>
+                </RouterLink>
             </div>
         </section>
     </main>

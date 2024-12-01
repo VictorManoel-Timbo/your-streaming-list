@@ -54,30 +54,30 @@ export default {
   <div class="flex items-center py-4 justify-center bg-slate-950 text-white">
     <RouterLink :to="`/${type_media}/${page}`">
       <Button type="button" @click="voltarPagina(true)"
-        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0" unstyled>
         <v-icon name="md-keyboarddoublearrowleft-round" />
       </Button>
       <Button type="button" @click="voltarPagina(false)"
-        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0 mr-1">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0 mr-1" unstyled>
         <v-icon name="md-keyboardarrowleft-round" />
       </Button>
       <div class="inline-flex text-center">
-        <Button v-if="page > 1 && page < 500" type="button" class="mx-1 w-6" @click="page--">
+        <Button v-if="page > 1 && page < 500" type="button" class="mx-1 w-6" @click="page--" unstyled>
           {{ page - 1 }}
         </Button>
-        <Button type="button" class="p-1 mx-1 w-8 text-center rounded-full ring-2 ring-white">
+        <Button type="button" class="p-1 mx-1 w-8 text-center rounded-full ring-2 ring-white" unstyled>
           {{ page }}
         </Button>
-        <Button v-if="page > 1 && page < 500" type="button" class="mx-1 w-6" @click="page++">
+        <Button v-if="page > 1 && page < 500" type="button" class="mx-1 w-6" @click="page++" unstyled>
           {{ page + 1 }}
         </Button>
       </div>
       <Button type="button" @click="passarPagina(false)"
-        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0 ml-1">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0 ml-1" unstyled>
         <v-icon name="md-keyboardarrowright-round" />
       </Button>
       <Button type="button" @click="passarPagina(true)"
-        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0">
+        class="no-underline scale-125 p-1 leading-none font-extrabold transition duration-300 hover:scale-100 mt-0" unstyled>
         <v-icon name="md-keyboarddoublearrowright-round" />
       </Button>
     </RouterLink>

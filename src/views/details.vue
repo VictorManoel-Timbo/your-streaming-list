@@ -79,7 +79,7 @@ export default {
                 <div class="mt-2 lg:mt-4 w-full text-justify text-xl tracking-wide">{{ detail.overview }}</div>
                 <div class="mt-4 lg:mt-8">
                     <Button @click="toggleFavorite"
-                        class="rounded bg-red-700 text-black font-semibold hover:bg-black hover:text-red-700 hover:outline-none hover:ring-2 hover:ring-white p-1">
+                        class="rounded bg-red-700 text-black font-semibold hover:bg-black hover:text-red-700 hover:outline-none hover:ring-2 hover:ring-white p-1" unstyled>
                         {{ isFavorite ? 'Remover' : 'Favoritar' }}
                         <v-icon :name="isFavorite ? 'fa-heart-broken' : 'ri-heart-add-line'"></v-icon>
                     </Button>
