@@ -35,11 +35,30 @@ export default {
         <section>
             <div v-if="$route.meta.hasSearch" class="space-x-4 mx-3 text-center">
                 <InputText type="text" class="rounded font-semibold text-sm h-7 pl-2" v-model="search" />
-                <Button @click="sendSearch(search)" class="rounded-md bg-slate-800 border-2 border-white px-1 h-auto text-white" unstyled>
+                <Button @click="sendSearch(search)"
+                    class="rounded-md bg-slate-800 border-2 border-white px-1 h-auto text-white" unstyled>
                     <v-icon name="bi-search" />
                 </Button>
             </div>
-            <ul>
+            <div class="inline-block m-8 text-center" v-for="streaming in url" :key="streaming.id">
+                <div class="transform transition duration-500 hover:scale-105">
+                    <RouterLink class=""
+                        :to="`/details/${streaming.media_type}/${streaming.id}`">
+                        <Card style="width: 304px; height: 456px; overflow: hidden">
+                            <template #header>
+                                <img v-if="streaming.poster_path || streaming.backdrop_path || streaming.profile_path"
+                                    :src="`https://image.tmdb.org/t/p/w342/${streaming.poster_path || streaming.backdrop_path || streaming.profile_path}`">
+                            </template>
+                        </Card>
+                    </RouterLink>
+                </div>
+                <Button type="button" v-if="isVisibleButton" @click="sendFavoriteDelete(streaming)"
+                    class="rounded-full w-6 h-auto bg-neutral-100 text-black hover:text-red-700 outline-none hover:ring-2 hover:ring-neutral-500 ring-offset-2 ring-offset-gray-800 m-6 transition duration-300 hover:scale-125"
+                    unstyled>
+                    <v-icon name="fa-heart-broken" />
+                </Button>
+            </div>
+            <!--<ul>
                 <li class="inline-block m-8 relative text-center" v-for="streaming in url" :key="streaming.id">
                     <div class="w-full relative">
                         <div class="transform transition duration-500 hover:scale-105">
@@ -58,17 +77,7 @@ export default {
                         </Button>
                     </div>
                 </li>
-            </ul>
+            </ul>-->
         </section>
     </main>
 </template>
-
-<style scoped>
-:deep(.main-card .p-card-content) {
-    @apply bg-slate-100 flex items-center;
-}
-
-:deep(.main-card .p-card-body) {
-    @apply p-0;
-}
-</style>
