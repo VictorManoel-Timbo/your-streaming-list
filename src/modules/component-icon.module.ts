@@ -1,12 +1,16 @@
 import type { App } from "vue";
-import { OhVueIcon, addIcons } from 'oh-vue-icons'
-import { HiMenu, HiSolidDotsVertical } from "oh-vue-icons/icons"; // Menu responsivo
-import { RiHeartFill, RiHeartAddLine, FaHeartBroken, FaTrash } from "oh-vue-icons/icons"; // Botões de favoritar e desfavoritar
-import { MdKeyboardarrowrightRound, MdKeyboardarrowleftRound, MdKeyboarddoublearrowleftRound, MdKeyboarddoublearrowrightRound } from "oh-vue-icons/icons" // Paginação
+import { OhVueIcon, addIcons } from 'oh-vue-icons';
+import * as MdIcons from "oh-vue-icons/icons/md";
+import * as FaIcons from "oh-vue-icons/icons/fa";
+import * as HiIcons from "oh-vue-icons/icons/hi";
 
-addIcons( HiMenu, HiSolidDotsVertical);
-addIcons(RiHeartFill, RiHeartAddLine, FaHeartBroken, FaTrash);
-addIcons(MdKeyboardarrowrightRound, MdKeyboardarrowleftRound, MdKeyboarddoublearrowleftRound, MdKeyboarddoublearrowrightRound);
+const icons = Object.values({
+    ...MdIcons,
+    ...FaIcons,
+    ...HiIcons
+});
+
+addIcons(...icons);
 
 export function setComponentIcons(app: App) {
     app.component("v-icon", OhVueIcon);
